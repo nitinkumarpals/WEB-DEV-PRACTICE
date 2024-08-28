@@ -1,41 +1,41 @@
-import Credentials from "next-auth/providers/credentials"
-import { AuthOptions } from 'next-auth';
+import CredentialsProvider from 'next-auth/providers/credentials';
 
-export const NextAuth_Ts : AuthOptions  = {
+export const NextAuth_Ts   =  {
   providers: [
-    Credentials({
-      credentials: {
-        email: { label: "Email", type: "email" , placeholder: "Email" },
-        password: {label: "Password", type: "password", placeholder: "Password"},
-        
-      },
-      authorize: async (credentials : any) => {
-        const email =  credentials.email;
-        const password = credentials.password;
-        return {
-          id : "1",
-          name : "John Doe",
-          email : email
-        }
-      }
-    })
+    CredentialsProvider({
+        name: 'Credentials',
+        credentials: {
+          username: { label: 'email', type: 'text', placeholder: '' },
+          password: { label: 'password', type: 'password', placeholder: '' },
+        },
+
+        async authorize(credentials: any) {
+
+            return {
+                id: "user1",
+                name: "asd",
+                userId: "asd",
+                email: "ramdomEmail"
+            };
+        },
+      }),
   ],
+  secret: process.env.AUTH_SECRET,
   callbacks: {
-    jwt: async ({ user, token }: any) => {
-    if (user) {
-        token.uid = user.id;
-    }
-    return token;
-    },
-  session: ({ session, token, user }: any) => {
-      if (session.user) {
-          session.user.id = token.uid
+      jwt: async ({ user, token }: any) => {
+      if (user) {
+          token.uid = user.id;
       }
-      return session
+      return token;
+      },
+    session: ({ session, token, user }: any) => {
+        if (session.user) {
+            session.user.id = token.uid
+        }
+        return session
+    }
+  },
+  pages: {
+    signIn: '/sign-in'
   }
-},
-pages: {
-  signIn: "/sign-in/page.tsx",
-  error: "/sign-in/error", // Custom error page
-},
 }

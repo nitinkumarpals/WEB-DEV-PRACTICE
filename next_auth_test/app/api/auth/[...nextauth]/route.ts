@@ -3,5 +3,5 @@ import NextAuth from "next-auth";
 
 const handler = NextAuth(NextAuth_Ts);
 
-export const get = handler;
-export const post = handler;
+export const GET = handler;
+export const POST = handler;

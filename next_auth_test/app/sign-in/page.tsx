@@ -2,9 +2,12 @@
 import { signIn } from "next-auth/react"
 import { useState } from "react";
 import { Appbar } from "../components/AppBar";
+import { useRouter } from 'next/navigation';
 export default function SignIn() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const router = useRouter();
+
   return (
     <div>
       <Appbar/>
@@ -19,8 +22,9 @@ export default function SignIn() {
       </div>
       <button type="button" className="focus:outline-none text-white bg-purple-700 hover:bg-purple-800 focus:ring-4 focus:ring-purple-300 font-medium rounded-lg text-sm px-5 py-2.5 mb-2" 
       onClick={async () =>{
-        const res = await signIn("credentials", {email, password, redirect: false});
+        const res = await signIn("credentials", {email:"", password:"", redirect: false});
         console.log(res);
+        router.push("/")
       }}>
         Submit</button>
       </div>
