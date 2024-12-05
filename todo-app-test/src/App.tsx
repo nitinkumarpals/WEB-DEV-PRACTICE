@@ -2,8 +2,14 @@ import "./App.css";
 import Item from "./components/Item";
 import Todo from "./components/Todo";
 import { useState } from "react";
+interface TodoItem {
+  text: string;
+  completed: boolean;
+}
 function App() {
-  const [todos, setTodos] = useState<string[]>([]);
+  const [todos, setTodos] = useState<TodoItem[]>([]);
+  const [text, setText] = useState<string>("");
+  const [editingIndex, setEditingIndex] = useState<number | null>(null);
 
   return (
     <>
@@ -13,11 +19,22 @@ function App() {
       <div className="text-center text-2xl font-mono tracking-tighter text-blue-600">
         Add a todo
       </div>
-      <Todo setTodos={setTodos} />
+      <Todo
+        todos={todos}
+        setTodos={setTodos}
+        text={text}
+        setText={setText}
+        editingIndex={editingIndex}
+        setEditingIndex={setEditingIndex}
+      />
       <div className="text-center text-2xl font-mono tracking-tighter text-blue-600">
         Your Todos
       </div>
-      <Item todos={todos} setTodos={setTodos} />
+      <Item
+        setTodos={setTodos}
+        setText={setText}
+        setEditingIndex={setEditingIndex}
+      />
     </>
   );
 }
