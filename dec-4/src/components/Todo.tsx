@@ -1,40 +1,49 @@
 import { Input } from './ui/input';
 import { Button } from './ui/button';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { ModeToggle } from './ui/mode-toggle';
 import { Checkbox } from './ui/checkbox';
 import { Edit } from 'lucide-react';
 const Todo = () => {
-    const [todos, setTodos] = useState<{ text: string; completed: boolean }[]>(
+    const [todos, setTodos] = useState<{ todo: string; completed: boolean }[]>(
         []
     );
     const [input, setInput] = useState('');
     const [editing, setEditing] = useState<{
         index: number;
-        text: string;
+        todo: string;
     } | null>();
-
+    interface Todo {
+        todo: string;
+        completed: boolean;
+    }
+    useEffect(() => {
+        fetch('https://dummyjson.com/todos')
+        .then((res) => res.json())
+        .then((data) => setTodos(data.todos.map((todo: Todo) => ({todo: todo.todo, completed: todo.completed }))))
+    },[])
     const addTodos = () => {
         if (input.trim() !== '') {
             setTodos((prevTodos) => [
                 ...prevTodos,
-                { text: input, completed: false }
+                { todo: input, completed: false }
             ]);
         }
         setInput('');
     };
     const editTodo = (index: number) => {
-        setEditing({ index, text: todos[index].text });
+        setEditing({ index, todo: todos[index].todo });
     };
 
     const saveEdit = () => {
         if (editing) {
             setTodos((prevTodos) =>
                 prevTodos.map((todo, i) =>
-                    i === editing.index ? { ...todo, text: editing.text } : todo
+                    i === editing.index ? { ...todo, todo: editing.todo } : todo
                 )
             );
             setEditing(null);
+            setInput('');
         }
     };
     const toggle = (index: number) => {
@@ -47,7 +56,7 @@ const Todo = () => {
 
     const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         if (editing) {
-            setEditing({ ...editing, text: e.target.value });
+            setEditing({ ...editing, todo: e.target.value });
         }
         setInput(e.target.value);
     };
@@ -87,7 +96,7 @@ const Todo = () => {
                             {editing && editing.index === index ? (
                                 <Input
                                     className="flex-1 break-words"
-                                    value={editing.text}
+                                    value={editing.todo}
                                     onChange={handleInputChange}
                                     onKeyDown={(e) => {
                                         if (e.key == 'Enter') {
@@ -100,7 +109,7 @@ const Todo = () => {
                                     className={`flex-1 break-words ${
                                         todo.completed ? 'line-through' : ''
                                     }`}>
-                                    {todo.text}
+                                    {todo.todo}
                                 </span>
                             )}
                             <Edit onClick={() => editTodo(index)} />
