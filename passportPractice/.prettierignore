@@ -1,0 +1,25 @@
+# Ignore node_modules and build directories
+node_modules/
+build/
+dist/
+
+# Ignore IDE and editor files
+.vscode/
+.idea/
+.editorconfig
+
+# Ignore logs and temp files
+logs/
+tmp/
+temp/
+
+# Ignore test coverage files
+coverage/
+
+# Ignore package files
+package-lock.json
+yarn.lock
+
+*.env
+.env
+.env.*
