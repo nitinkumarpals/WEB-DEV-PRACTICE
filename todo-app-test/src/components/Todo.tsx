@@ -13,6 +13,7 @@ interface TodoProps {
 const Todo: React.FC<TodoProps> = ({ setTodos,editingIndex,setEditingIndex }) => {
   const [text, setText] = useState<string>("");
 
+
   const addOrEditTodo = () => {
     if (text.trim() !== "") {
       if (editingIndex === null) {
