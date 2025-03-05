@@ -5,3 +5,6 @@ app.use(express.json());
 app.get("/", (req, res) => {
   res.status(200).json({ message: `healthy server ${process.pid} ` });
 });
+app.get("/test", (req, res) => {
+  res.status(200).json({ message: `healthy server ${process.pid} ` });
+})
