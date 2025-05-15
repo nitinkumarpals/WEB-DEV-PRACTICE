@@ -1,0 +1,23 @@
+# Ignore virtual environment directories
+venv/
+env/
+
+# Ignore IDE and editor files
+.vscode/
+.idea/
+pycharm/
+
+# Ignore Python bytecode files
+*.pyc
+*.pyo
+*.pyd
+
+# Ignore logs and cache files
+logs/
+.cache/
+
+# Ignore requirements.txt if you're using a virtual environment
+requirements.txt
+
+# Ignore FastAPI cache files
+.fastapi-cache/
